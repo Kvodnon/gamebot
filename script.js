@@ -7,15 +7,29 @@ let isNumber = function(n) {
 
 function main() {
   let number = Math.ceil(Math.random() * 100);
+  let tries = 10;
   console.log('number: ', number);
   
   function tryEnter() {
+    console.log('tries: ', tries);
+    
+    if (tries === 0) {
+      let again = confirm('Попытки закончились, хотите сыграть еще?');
+
+      if (again) {
+        main();
+      }
+
+      return false;
+    }
+
     let userNumber = prompt('Угадай число от 1 до 100', 20);
     
     let message;
     
     let ask = false;
     
+
     if (userNumber === null) {
       alert('Игра закончена');
       
@@ -24,16 +38,24 @@ function main() {
     
     if (userNumber > number) {
       ask = true;
-      message = 'Загаданное число меньше';
+      tries--;
+      message = 'Загаданное число меньше, осталось попыток: ' + tries;
     }
     
     if (userNumber < number) {
       ask = true;
-      message = 'Загаданное число больше';
+      tries--;
+      message = 'Загаданное число больше, осталось попыток: ' + tries;
     }
     
     if (+userNumber === number) {
-      message = 'Вы угадали!';
+      let again = confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?');
+
+      if (again) {
+        main();
+      }
+
+      return false;
     }
     
     if (!isNumber(userNumber)) {
